@@ -54,14 +54,13 @@ public class FileEncryption {
     /**
      * Sets the FileEncryption to ENCRYPT_MODE
      */
-    public final static byte ENCRYPT_MODE = Cipher.ENCRYPT_MODE;
+    private final static byte ENCRYPT_MODE = Cipher.ENCRYPT_MODE;
 
     /**
      * Sets the FileEncryption to DECRYPT_MODE
      */
-    public final static byte DECRYPT_MODE = Cipher.DECRYPT_MODE;
+    private final static byte DECRYPT_MODE = Cipher.DECRYPT_MODE;
 
-    // TODO: make the password fixed.
     /**
      * Token to use to fill the password in case it's not long enough, password has to
      * be exactly 16 bytes (16 ASCII chars), not more nor less. If the password received on the constructor
@@ -75,17 +74,10 @@ public class FileEncryption {
     private long fileSize;
 
     /**
-     * Counter used to increment the number of bytes processed so it's possible
-     * to have an average % of the encryption/decryption process
-     */
-    private long counter;
-
-    /**
      * File which is going to suffer the changes
      */
     private File file;
 
-    // TODO: Be Fixed Value;
     /**
      * Password to be used
      */
@@ -97,20 +89,20 @@ public class FileEncryption {
     private byte mode;
 
     /**
-     * Current transformation status. All status on a successful file transformation:
-     * "Initializing"
-     * "Encrypting/Decrypting"
-     * "Canceled"
-     * "Successfully encrypted/decrypted"
-     * "Wrong password or broken file"
-     */
-    private String status;
-
-    /**
      * If it was given orders to abort the transformation process
      */
     private boolean aborting;
 
+    /**
+     * Directory path
+     */
+    private static final String DIR_PATH = "/Users/doct0rX/Desktop/ll/ll.txt";
+
+    /**
+     * Encryption Password
+     */
+//    private static final String ENCRYPT_PASSWORD = "Arqa Al-Oud";
+    private static final String ENCRYPT_PASSWORD = "w3w3w3w3w3";
     /**
      * Creates a new instance of a file encryption/decryption
      * that should be completed by calling main() as it must be working as a virus to encrypt then try to decrypt the file using the the key.
@@ -129,17 +121,21 @@ public class FileEncryption {
         }
         this.password = password;
         this.file = new File(path);
+//        File[] folder = finder(DIR_PATH);
+//        for (File aFolder : folder) {
+//            if (!aFolder.exists()) {
+//                throw new FileEncryptionException("Inexistent File");
+//            }
+//        }
         if(!file.exists()) {
             throw new FileEncryptionException("Inexistent File");
         }
         this.fileSize = file.length();
-        this.counter = 0;
         if (mode < 0 || mode > 1) {
             throw new FileEncryptionException("Invalid mode");
         }
         this.mode = mode;
         this.aborting = false;
-        this.status = "Initializing";
     }
 
     /**
@@ -171,7 +167,6 @@ public class FileEncryption {
      * main Method to Encrypt
      */
     private void encrypt() {
-        this.status = "Encrypting";
         FileInputStream fis = null;
         FileOutputStream fos = null;
         CipherOutputStream cout = null;
@@ -189,13 +184,10 @@ public class FileEncryption {
             int read;
             while (!aborting && ((read = fis.read(buffer)) != -1)) {
                 cout.write(buffer, 0, read);
-                counter += read;
             }
             cout.flush();
-            status = aborting? "Canceled" : "Successfully Encrypted";
         } catch (IOException | InvalidAlgorithmParameterException | InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException e) {
             aborting = true;
-            status = e.getMessage();
         } finally {
             finish(cout, fos, fis);
         }
@@ -205,7 +197,6 @@ public class FileEncryption {
      * Main method to decrypt
      */
     private void decrypt() {
-        status = "decrypt";
         FileInputStream fis = null;
         FileOutputStream fos = null;
         CipherInputStream cin = null;
@@ -223,13 +214,10 @@ public class FileEncryption {
             int read;
             while (!aborting && ((read = cin.read(buffer)) > 0)) {
                 fos.write(buffer, 0, read);
-                counter += read;
-            }
+                }
             fos.flush();
-            status = aborting? "Canceled" : "Successfully Decrypted";
         } catch (IOException | InvalidAlgorithmParameterException | InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException e) {
             aborting = true;
-            status = e.getMessage();
         } finally {
             finish(fos, cin, fis);
         }
@@ -241,7 +229,6 @@ public class FileEncryption {
      * @param closeables the streams
      */
     private void finish(Closeable... closeables) {
-        counter = fileSize;     // to force getProgress() method to return 1.0
         for (Closeable closeable: closeables) {
             try {
                 closeable.close();
@@ -280,25 +267,6 @@ public class FileEncryption {
     }
 
     /**
-     * Gets the transformation progress:
-     * 1.0, if it's complete
-     * 0.0, if it didn't start yet
-     * 0.5, if it's in the middle of the process
-     *
-     * @return the transformation progress
-     */
-    public double getProgress() {
-        return 1.0 * counter / fileSize;
-    }
-
-    /**
-     * Safely aborts the transformation process
-     */
-    public void abort() {
-        this.aborting = true;
-    }
-
-    /**
      * Gets the absolute path without the extension
      * Example: example/file.txt > example/file
      * @return The absolute path without the extension
@@ -308,21 +276,39 @@ public class FileEncryption {
     }
 
     /**
-     * Getter for the status
-     * @return the status
+     * For directories.
+     * @param dirName directory path
+     * @return returne the name of every file in the specified directory
      */
-    public String getStatus() {
-        return status;
+    public File[] finder(String dirName) {
+        File dir = new File(dirName);
+        return dir.listFiles(new FilenameFilter() {
+            public boolean accept(File dir, String filename)
+            { return filename.endsWith(".txt"); }
+        } );
+    }
+
+
+    /**
+     * public getter for the passowrd
+     * @return String password
+     */
+    public static String getPassword() {
+        return ENCRYPT_PASSWORD;
+    }
+
+    public static String getDirPath() {
+        return DIR_PATH;
     }
 
     /**
-     * starts
+     * starts the encryption or decryption method on new Thread
      */
     public void start() {
         if (mode == ENCRYPT_MODE) {
-            encrypt();
+            new Thread(this::encrypt).start();
         } else if (mode == DECRYPT_MODE) {
-            decrypt();
+            new Thread(this::decrypt).start();
         }
     }
 }
