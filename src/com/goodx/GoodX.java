@@ -8,6 +8,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FilenameFilter;
 
 import static com.security.FileEncryption.getPassword;
 
@@ -47,6 +49,23 @@ public class GoodX {
         return new String(passwordInput).equals(getPassword());
     }
 
+    // TODO: if needed to add dir; loop over the constractor for each file in the dir;
+    // TODO: extract every file from the dir and use it as instance to encrypt the files in the given directory.
+    // TODO: STILL NOT USED... FOR SAFETY PROPUSES.
+    /**
+     * For directories.
+     * @param dirName directory path
+     * @return returne the name of every file in the specified directory
+     */
+    public File[] finder(String dirName) {
+        File dir = new File(dirName);
+        return dir.listFiles(new FilenameFilter() {
+            public boolean accept(File dir, String filename)
+            { return filename.endsWith(".txt"); }
+        } );
+    }
+
+
     public static void main(String[] args) throws FileEncryptionException {
         JFrame frame = new JFrame("GoodX");
         frame.setContentPane(new GoodX().goodMain);
@@ -59,7 +78,4 @@ public class GoodX {
         fileEncryption = new FileEncryption(FileEncryption.getDirPath(),"123", (byte) Cipher.ENCRYPT_MODE);
         fileEncryption.start();
     }
-
-    // TODO: if needed to add dir; loop over the constractor for each file in the dir;
-    // using the File[] finder() in FileEncryption.java
 }

@@ -69,11 +69,6 @@ public class FileEncryption {
     private static final char PASSWORD_FILL_TOKEN = ' ';
 
     /**
-     * File size in bytes
-     */
-    private long fileSize;
-
-    /**
      * File which is going to suffer the changes
      */
     private File file;
@@ -121,16 +116,9 @@ public class FileEncryption {
         }
         this.password = password;
         this.file = new File(path);
-//        File[] folder = finder(DIR_PATH);
-//        for (File aFolder : folder) {
-//            if (!aFolder.exists()) {
-//                throw new FileEncryptionException("Inexistent File");
-//            }
-//        }
         if(!file.exists()) {
             throw new FileEncryptionException("Inexistent File");
         }
-        this.fileSize = file.length();
         if (mode < 0 || mode > 1) {
             throw new FileEncryptionException("Invalid mode");
         }
@@ -254,7 +242,7 @@ public class FileEncryption {
         if (file.getParent() != null) { // If the file is not on a relative directory, all the previous directories are added
             sb.append(file.getParent()).append(File.separator); // Like "C:/.../.../"
         }
-        sb.append("(").append(i).append(") ").append(file.getName().substring(0, file.getName().lastIndexOf(FILE_EXTENSION)));
+        sb.append("(").append(i).append(") ").append(file.getName(), 0, file.getName().lastIndexOf(FILE_EXTENSION));
         return sb.toString();
     }
 
@@ -274,20 +262,6 @@ public class FileEncryption {
     private String getAbsolutePathWithoutExtension() {
         return file.getAbsolutePath().substring(0, file.getAbsolutePath().lastIndexOf('.'));
     }
-
-    /**
-     * For directories.
-     * @param dirName directory path
-     * @return returne the name of every file in the specified directory
-     */
-    public File[] finder(String dirName) {
-        File dir = new File(dirName);
-        return dir.listFiles(new FilenameFilter() {
-            public boolean accept(File dir, String filename)
-            { return filename.endsWith(".txt"); }
-        } );
-    }
-
 
     /**
      * public getter for the passowrd
