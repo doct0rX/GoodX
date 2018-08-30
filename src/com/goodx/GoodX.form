@@ -3,7 +3,7 @@
   <grid id="27dc6" binding="goodMain" layout-manager="GridLayoutManager" row-count="4" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="500" height="400"/>
+      <xy x="20" y="20" width="1002" height="3889"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -36,13 +36,21 @@
       </component>
       <component id="82464" class="javax.swing.JTextArea" binding="enterTheKeyToTextArea" default-binding="true">
         <constraints>
-          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="4" use-parent-layout="false">
             <preferred-size width="150" height="50"/>
           </grid>
         </constraints>
         <properties>
           <editable value="false"/>
-          <text value="Enter The Key to Decrypt"/>
+          <enabled value="true"/>
+          <focusCycleRoot value="false"/>
+          <focusTraversalPolicyProvider value="false"/>
+          <font name="Source Code Pro" size="14"/>
+          <lineWrap value="true"/>
+          <margin top="7" left="7" bottom="7" right="7"/>
+          <opaque value="false"/>
+          <text value="&#9;    ----------------------------&#10;&#9;    | Enter The Key to Decrypt |&#10;&#9;    ---------------------------- &#10;-&gt; In this Challenge you have to Reverse Engineer the Ransomware for extracting the Password [Key] to Decrypt your files back again. :)" noi18n="true"/>
+          <wrapStyleWord value="true"/>
         </properties>
       </component>
     </children>

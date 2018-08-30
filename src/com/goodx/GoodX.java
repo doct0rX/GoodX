@@ -80,7 +80,7 @@ public class GoodX {
         frame.setContentPane(new GoodX().goodMain);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
-        frame.setSize(501, 201);
+        frame.setSize(501, 251);
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();  // setting the frame in the center of screen.
         frame.setLocation(dimension.width/2-frame.getSize().width/2, dimension.height/2-frame.getSize().height/2);
         frame.setVisible(true);
