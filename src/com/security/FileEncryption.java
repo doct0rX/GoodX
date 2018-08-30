@@ -91,7 +91,7 @@ public class FileEncryption {
     /**
      * Directory path
      */
-    private static final String DIR_PATH = "/Users/doct0rX/Desktop/ll/ll.txt";
+    private static final String DIR_PATH = "/Users/doct0rX/Desktop/ll/";
 
     /**
      * Encryption Password

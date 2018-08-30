@@ -5,7 +5,7 @@ package com.security;
  * Github: doct0rX
  */
 public class FileEncryptionException extends Exception {
-    public FileEncryptionException(String msg){
+    FileEncryptionException(String msg){
         super(msg);
     }
 }

