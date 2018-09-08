@@ -6,10 +6,13 @@ import sun.rmi.runtime.Log;
 
 import javax.crypto.Cipher;
 import javax.swing.*;
+import javax.swing.event.HyperlinkEvent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
 
 import static com.security.FileEncryption.getDirPath;
 import static com.security.FileEncryption.getPassword;
@@ -25,6 +28,7 @@ public class GoodX {
     private JPasswordField passwordField;
     private JButton about️Button;
     private JTextArea enterTheKeyToTextArea;
+    private static Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
 
     private GoodX() {
         submitButton.addActionListener(new ActionListener() {
@@ -38,6 +42,33 @@ public class GoodX {
                     JOptionPane.showMessageDialog(null, "nope.");
                 }
             }
+        });
+
+        about️Button.addActionListener(e -> {
+            JFrame aboutFrame = new JFrame();
+            final JEditorPane editor = new JEditorPane();
+            editor.setEditorKit(JEditorPane.createEditorKitForContentType("text/html"));
+            editor.setEditable(false);
+            String fontFamily = editor.getFont().getFamily();
+            editor.setText("<html> <center> <br> <br>" +
+                    "<body style=\"font-family: " + fontFamily + "\"<b> Follow Me On <br> Twitter: <a href=\"https://www.twitter.com/mustafaj4m\">mustafaj4m</a>, " +
+                    "<br> GitHub: <a href=\"https://www.github.com/doct0rx\">Doct0rX</a>" +
+                    "</center> </html>");
+            editor.addHyperlinkListener(e12 -> {
+                if(e12.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+                    if(Desktop.isDesktopSupported()) {
+                        try {
+                            Desktop.getDesktop().browse(e12.getURL().toURI());
+                        } catch (IOException | URISyntaxException e1) {
+                            e1.printStackTrace();
+                        }
+                    }
+                }
+            });
+            aboutFrame.setSize(501, 155);
+            aboutFrame.setLocation(dimension.width/2-aboutFrame.getSize().width/2, dimension.height/2-aboutFrame.getSize().height/2);
+            aboutFrame.add(editor);
+            aboutFrame.setVisible(true);
         });
     }
 
@@ -81,7 +112,6 @@ public class GoodX {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setSize(501, 251);
-        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();  // setting the frame in the center of screen.
         frame.setLocation(dimension.width/2-frame.getSize().width/2, dimension.height/2-frame.getSize().height/2);
         frame.setVisible(true);
 
