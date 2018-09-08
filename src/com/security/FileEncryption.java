@@ -12,8 +12,8 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * Author: Mustafa Jamal
- * Github: @doct0rX
+ * @Author: Mustafa Jamal
+ * @Github: @doct0rX
  */
 public class FileEncryption {
 
@@ -91,7 +91,7 @@ public class FileEncryption {
     /**
      * Directory path
      */
-    private static final String DIR_PATH = "/Users/doct0rX/Desktop/ll/";
+    private static final String DIR_PATH = "/Users/doct0rX/Desktop/ll";
 
     /**
      * Encryption Password
@@ -119,7 +119,7 @@ public class FileEncryption {
         if(!file.exists()) {
             throw new FileEncryptionException("Inexistent File");
         }
-        if (mode < 0 || mode > 1) {
+        if (mode < 1 || mode > 2) {
             throw new FileEncryptionException("Invalid mode");
         }
         this.mode = mode;
