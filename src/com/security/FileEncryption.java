@@ -174,6 +174,7 @@ public class FileEncryption {
                 cout.write(buffer, 0, read);
             }
             cout.flush();
+            new File(getAbsolutePathWithoutExtension()).delete();   // for deleting the main file after encryting it.
         } catch (IOException | InvalidAlgorithmParameterException | InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException e) {
             aborting = true;
         } finally {
@@ -233,7 +234,8 @@ public class FileEncryption {
             sb.append(file.getParent()).append(File.separator); // Like "C:/.../.../"
         }
         // Adds "(i) " on the beginning as well as the extension
-        sb.append("(").append(i).append(") ").append(file.getName()).append(FILE_EXTENSION);
+//        sb.append("(").append(i).append(") ").append(file.getName()).append(FILE_EXTENSION);
+        sb.append(file.getName()).append(FILE_EXTENSION);
         return sb.toString();
     }
 
@@ -241,8 +243,10 @@ public class FileEncryption {
         StringBuilder sb = new StringBuilder();
         if (file.getParent() != null) { // If the file is not on a relative directory, all the previous directories are added
             sb.append(file.getParent()).append(File.separator); // Like "C:/.../.../"
+            file.delete();
         }
-        sb.append("(").append(i).append(") ").append(file.getName(), 0, file.getName().lastIndexOf(FILE_EXTENSION));
+//        sb.append("(").append(i).append(") ").append(file.getName(), 0, file.getName().lastIndexOf(FILE_EXTENSION));
+        sb.append(file.getName(), 0, file.getName().lastIndexOf(FILE_EXTENSION));
         return sb.toString();
     }
 

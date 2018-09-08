@@ -11,6 +11,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.Objects;
 
 import static com.security.FileEncryption.getDirPath;
 import static com.security.FileEncryption.getPassword;
@@ -28,6 +29,7 @@ public class GoodX {
     private JTextArea enterTheKeyToTextArea;
     private static Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
     private static boolean noPath = false;  // if no path for directory display msg and aport the app.
+    private static boolean fileAlreadyEncrypted = false;
 
     private GoodX() {
         submitButton.addActionListener(event -> {
@@ -37,6 +39,15 @@ public class GoodX {
                     chiperPathAndMode(getDirPath(), Cipher.DECRYPT_MODE);
                 } catch (FileEncryptionException e) {
                     e.printStackTrace();
+                }
+
+
+                // for deleting .enc files after decrypting it.
+                File file = new File(getDirPath());
+                for (File f : Objects.requireNonNull(file.listFiles())) {
+                    if (f.getName().endsWith(".enc")) {
+                        f.delete();
+                    }
                 }
 
                 JOptionPane.showMessageDialog(null, "Correct Password!!!\n---------------\n|    " + new String(passwordInput) + "    |\n---------------");
@@ -108,7 +119,16 @@ public class GoodX {
     }
 
     public static void main(String[] args) throws FileEncryptionException {
-        chiperPathAndMode(getDirPath(), Cipher.ENCRYPT_MODE);
+        File file = new File(getDirPath());
+        for (File f : Objects.requireNonNull(file.listFiles())) {
+            if (f.getName().endsWith(".enc")) {
+                fileAlreadyEncrypted = true;
+            }
+        }
+
+        if (!fileAlreadyEncrypted) {
+            chiperPathAndMode(getDirPath(), Cipher.ENCRYPT_MODE);
+        }
 
         JFrame frame = new JFrame("GoodX");
         if (noPath) {
