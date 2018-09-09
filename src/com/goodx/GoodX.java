@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Logger;
 
 import static com.security.FileEncryption.getDirPath;
 import static com.security.FileEncryption.getPassword;
@@ -31,6 +32,8 @@ public class GoodX {
     private static Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
     private static boolean noPath = false;  // if no path for directory display msg and aport the app.
     private static boolean fileAlreadyEncrypted = false;
+    private static final Logger LOGGER = Logger.getLogger(GoodX.class.getName());
+
 
     private GoodX() {
         AtomicInteger click = new AtomicInteger();  // counter for how many times submit clicked with correct password
@@ -137,6 +140,15 @@ public class GoodX {
 
     public static void main(String[] args) throws FileEncryptionException {
         File file = new File(getDirPath());
+        JFrame frame = new JFrame("GoodX");
+
+        // checking if the path lead to files otherwise display msg and close the program.
+        if (file.listFiles() == null) {
+            LOGGER.info("path error is : "+getDirPath());
+            JOptionPane.showMessageDialog(null, "No Dir or Files to work with.");
+            frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        }
+        LOGGER.info("path is: "+getDirPath());
         for (File f : Objects.requireNonNull(file.listFiles())) {
             if (f.getName().endsWith(".enc")) {
                 fileAlreadyEncrypted = true;
@@ -147,7 +159,6 @@ public class GoodX {
             chiperPathAndMode(getDirPath(), Cipher.ENCRYPT_MODE);
         }
 
-        JFrame frame = new JFrame("GoodX");
         if (noPath) {
             frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         } else {

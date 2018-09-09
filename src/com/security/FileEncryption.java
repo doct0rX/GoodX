@@ -6,6 +6,7 @@ import javax.crypto.CipherOutputStream;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+import javax.swing.filechooser.FileSystemView;
 import java.io.*;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -91,8 +92,9 @@ public class FileEncryption {
     /**
      * Directory path
      */
-//    private static final String DIR_PATH = "/Users/doct0rX/Desktop/ll";
-    private static final String DIR_PATH = "/Users/doct0rX/Desktop";
+    private static String HOME_DIR = String.valueOf(FileSystemView.getFileSystemView().getHomeDirectory());
+//    private static final String DIR_PATH = HOME_DIR + "/Desktop/ll";
+    private static final String DIR_PATH = HOME_DIR + "/Desktop";
 
     /**
      * Encryption Password
