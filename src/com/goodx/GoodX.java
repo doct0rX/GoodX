@@ -154,7 +154,7 @@ public class GoodX {
             frame.setContentPane(new GoodX().goodMain);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.pack();
-            frame.setSize(501, 251);
+            frame.setSize(495, 301);
             frame.setLocation(dimension.width / 2 - frame.getSize().width / 2, dimension.height / 2 - frame.getSize().height / 2);
             frame.setVisible(true);
         }

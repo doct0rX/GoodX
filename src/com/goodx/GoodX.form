@@ -3,7 +3,7 @@
   <grid id="27dc6" binding="goodMain" layout-manager="GridLayoutManager" row-count="4" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="1002" height="3889"/>
+      <xy x="20" y="20" width="1002" height="4425"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -49,7 +49,7 @@
           <lineWrap value="true"/>
           <margin top="7" left="7" bottom="7" right="7"/>
           <opaque value="false"/>
-          <text value="&#9;    ----------------------------&#10;&#9;    | Enter The Key to Decrypt |&#10;&#9;    ---------------------------- &#10;-&gt; In this Challenge you have to Reverse Engineer the Ransomware for extracting the Password [Key] to Decrypt your files back again. :)" noi18n="true"/>
+          <text value="&#9;    ----------------------------&#10;&#9;    | Enter The Key to Decrypt |&#10;&#9;    ---------------------------- &#10;    .___             __   _______       ____  ___&#10;  __| _/____   _____/  |_ \   _  \______\   \/  /&#10; / __ |/  _ \_/ ___\   __\/  /_\  \_  __ \     / &#10;/ /_/ (  &lt;_&gt; )  \___|  |  \  \_/   \  | \/     \ &#10;\____ |\____/ \___  &gt;__|   \_____  /__| /___/\  \&#10;     \/           \/             \/           \_/" noi18n="true"/>
           <wrapStyleWord value="true"/>
         </properties>
       </component>

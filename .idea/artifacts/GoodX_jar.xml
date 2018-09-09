@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="GoodX:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/GoodX_jar</output-path>
+    <root id="archive" name="GoodX.jar">
+      <element id="module-output" name="GoodX" />
+    </root>
+  </artifact>
+</component>
