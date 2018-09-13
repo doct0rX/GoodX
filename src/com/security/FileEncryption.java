@@ -98,8 +98,18 @@ public class FileEncryption {
 
     /**
      * Encryption Password
+     * catch the password from a file "com/password.txt"
      */
-    private static final char[] OUD = "Arqa-Al-0ud".toCharArray();
+    private static String passwd;
+    static {
+        try {
+            passwd = new BufferedReader(new FileReader("/Users/doct0rX/Desktop/projects/GoodX/src/com/password.txt")).readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private static final char[] OUD = passwd.toCharArray();
+
 
     /**
      * Creates a new instance of a file encryption/decryption
