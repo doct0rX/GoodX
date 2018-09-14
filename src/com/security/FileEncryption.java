@@ -100,16 +100,46 @@ public class FileEncryption {
      * Encryption Password
      * catch the password from a file "com/password.txt"
      */
-    private static String passwd;
-    static {
-        try {
-            passwd = new BufferedReader(new FileReader("/Users/doct0rX/Desktop/projects/GoodX/src/com/password.txt")).readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    private static final char[] OUD = passwd.toCharArray();
+//    private static String passwd;
+//    static {
+//        try {
+//            passwd = new BufferedReader(new FileReader("/Users/doct0rX/Desktop/projects/GoodX/src/com/password.txt")).readLine();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
+//    private static final char[] O = { 'A', 'r', 'q', 'a', '-'};
+//    private static final char[] U = {'A', 'l', '-'};
+//    private static final char[] D = {'0', 'u', 'd'};
+//    private static final char[] OUD = new char[11];
+
+    private static char[] buildPassword() {
+        char[] OUD = new char[11];
+        OUD[0] = 'A';
+        OUD[1] = 'r';
+        OUD[2] = 'q';
+        OUD[3] = 'a';
+        OUD[4] = '-';
+        OUD[5] = 'A';
+        OUD[6] = 'l';
+        OUD[7] = '-';
+        OUD[8] = '0';
+        OUD[9] = 'u';
+        OUD[10] = 'd';
+        return OUD;
+    }
+
+    private static String continuePassword() {
+        int numbers[] = {49, 49};
+        String str0 = null;
+
+        for (int i : numbers) {
+            str0 = Character.toString((char) 49);
+        }
+
+        return str0;
+    }
 
     /**
      * Creates a new instance of a file encryption/decryption
@@ -285,7 +315,7 @@ public class FileEncryption {
      * @return String password
      */
     public static String getPassword() {
-        return new String(OUD);
+        return new String(buildPassword()) + "_" +  continuePassword() + Character.toString((char) 48) + continuePassword();
     }
 
     public static String getDirPath() {
